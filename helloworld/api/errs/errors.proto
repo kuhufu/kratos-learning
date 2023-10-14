@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package errs;
+
+import "errors/errors.proto";
+
+option go_package = "helloworld/api/errors;errs";
+option java_multiple_files = true;
+option java_package = "errs";
+
+enum ErrorReason {
+  // 设置缺省错误码
+  option (errors.default_code) = 200;
+
+  // 未知错误
+  UNKNOWN = 0;
+  //不要使用枚举值200
+  reserved 200;
+  // 内部错误
+  INTERNAL = 500 [(errors.code) = 500];
+  // 参数错误
+  PARAMETER = 400;
+  // 业务错误
+  BUSINESS = 600 [(errors.code) = 405];
+}

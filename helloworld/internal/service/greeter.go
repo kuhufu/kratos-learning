@@ -2,9 +2,10 @@ package service
 
 import (
 	"context"
+	"errors"
+	"helloworld/api/errs"
 	v1 "helloworld/api/helloworld/v1"
 	"helloworld/internal/biz"
-	"helloworld/internal/pkg/errs"
 )
 
 // GreeterService is a greeter service.
@@ -26,6 +27,15 @@ func (s *GreeterService) SayHello(ctx context.Context, in *v1.HelloRequest) (*v1
 		return nil, err
 	}
 
-	//return &v1.HelloReply{Message: "Hello " + g.Hello,}, nil
-	return nil, errs.New(2000, "error123")
+	if in.Name == "err" {
+		return nil, errs.ErrorBusiness("业务错误").
+			WithCause(errors.New("cause error")).
+			WithMetadata(map[string]string{
+				"user": "kuhufu",
+				"age":  "11",
+			})
+	}
+
+	return &v1.HelloReply{Message: "Hello " + in.Name}, nil
+
 }
