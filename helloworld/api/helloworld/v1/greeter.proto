@@ -3,6 +3,7 @@ syntax = "proto3";
 package helloworld.v1;
 
 import "google/api/annotations.proto";
+import "google/protobuf/any.proto";
 
 option go_package = "helloworld/api/helloworld/v1;v1";
 option java_multiple_files = true;
@@ -27,14 +28,28 @@ message Error {
 // The request message containing the user's name.
 message HelloRequest {
   string name = 1;
-  oneof data {
-      int32 age = 2;
-      string msg = 3;
-      Error error = 4;
-  }
 }
 
 // The response message containing the greetings
 message HelloReply {
   string message = 1;
+  google.protobuf.Any any = 2;
+}
+
+message Reply {
+  google.protobuf.Any data = 1;
+  int32 code = 2;
+  string msg = 3;
+}
+
+message Data {
+  string FieldA = 1;
+  string FieldB = 2;
+}
+
+message DataOneOf {
+  oneof data {
+    int32 a = 1;
+    int32 b = 2;
+  }
 }

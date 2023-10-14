@@ -19,24 +19,6 @@ paths:
                   required: true
                   schema:
                     type: string
-                - name: age
-                  in: query
-                  schema:
-                    type: integer
-                    format: int32
-                - name: msg
-                  in: query
-                  schema:
-                    type: string
-                - name: error.code
-                  in: query
-                  schema:
-                    type: integer
-                    format: int32
-                - name: error.msg
-                  in: query
-                  schema:
-                    type: string
             responses:
                 "200":
                     description: OK
@@ -46,11 +28,21 @@ paths:
                                 $ref: '#/components/schemas/helloworld.v1.HelloReply'
 components:
     schemas:
+        google.protobuf.Any:
+            type: object
+            properties:
+                '@type':
+                    type: string
+                    description: The type of the serialized message.
+            additionalProperties: true
+            description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
         helloworld.v1.HelloReply:
             type: object
             properties:
                 message:
                     type: string
+                any:
+                    $ref: '#/components/schemas/google.protobuf.Any'
             description: The response message containing the greetings
 tags:
     - name: Greeter

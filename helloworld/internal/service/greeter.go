@@ -2,9 +2,9 @@ package service
 
 import (
 	"context"
-
 	v1 "helloworld/api/helloworld/v1"
 	"helloworld/internal/biz"
+	"helloworld/internal/pkg/errs"
 )
 
 // GreeterService is a greeter service.
@@ -21,9 +21,11 @@ func NewGreeterService(uc *biz.GreeterUsecase) *GreeterService {
 
 // SayHello implements helloworld.GreeterServer.
 func (s *GreeterService) SayHello(ctx context.Context, in *v1.HelloRequest) (*v1.HelloReply, error) {
-	g, err := s.uc.CreateGreeter(ctx, &biz.Greeter{Hello: in.Name})
+	_, err := s.uc.CreateGreeter(ctx, &biz.Greeter{Hello: in.Name})
 	if err != nil {
 		return nil, err
 	}
-	return &v1.HelloReply{Message: "Hello " + g.Hello}, nil
+
+	//return &v1.HelloReply{Message: "Hello " + g.Hello,}, nil
+	return nil, errs.New(2000, "error123")
 }
